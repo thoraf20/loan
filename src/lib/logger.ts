@@ -27,7 +27,7 @@ const format = winston.format.combine(
 
   winston.format.printf(({ level, message, timestamp, ...body }) => {
   let log = `${timestamp} [${level}] ${message} ${JSON.stringify(body)}\n`
-  log += "-".repeat(200)
+  log += "-".repeat(156)
   return log;
   })
 )

@@ -11,18 +11,19 @@ import {
   unless
 } from "./src/middleware/index";
 import { logger } from "./src/lib/index";
+import mongoose from "mongoose";
 
 dotenv.config()
 
 // Middleware to log unhandled exceptions
-process.on('uncaughtException', (ex) => {
-  logger.error(`Uncaught exception: ${ex.message}`, ex);
+process.on('uncaughtException', (reason: Error) => {
+  logger.error(`Uncaught exception: ${reason.message}`, reason.message)
   process.exit(1); // Exit the process (optional)
 });
 
 // Middleware to disable inspector
-process.on('SIGUSR1', (ex) => {
-  logger.error(`Uncaught exception: ${ex}`, ex)
+process.on('SIGUSR1', (reason: Error) => {
+  logger.error(`Uncaught exception: ${reason.message}`, reason.message)
   process.exit(1)
 })
 
@@ -46,8 +47,16 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 // Security
 if (process.env.NODE_ENV === 'production') {
-  app.use(helmet())
+  app.use(helmet({ contentSecurityPolicy: false }))
 }
+
+mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, {
+  retryWrites: true,
+  w: 'majority',
+})
+mongoose.connection.on('error', (error) => {
+  logger.error('Database connection error: ', error)
+})
 
 app.listen(port, () => {
   logger.info(`Server is up and running at port: ${port}.`);

@@ -5,7 +5,7 @@ import { JWTPayload } from '../types'
 
 export const checkJwt = expressjwt({
   secret: `${process.env.JWT_SECRET}`,
-  algorithms: ['HS256']
+  algorithms: ['HS256'],
 })
 
 export const decodeJwt = (req: Request, res: Response, next: NextFunction) => {
@@ -21,10 +21,10 @@ export const decodeJwt = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export const routesExcludedFromJwtAuthentication = [
-  "/v1/health",
-  "/v1/password",
-  "/v1/password/reset",
-  "/v1/login",
-  "/v1/register",
-  "/v1/email/verify",
-];
+  '/v1/login',
+  '/v1/register',
+  '/v1/email/verify',
+  '/v1/code/send',
+  '/v1/code/verify',
+  '/v1/password/reset',
+]

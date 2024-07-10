@@ -3,6 +3,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from "cors";
+import mongoose from "mongoose";
 import {
   checkJwt,
   decodeJwt,
@@ -11,20 +12,18 @@ import {
   unless
 } from "./src/middleware/index";
 import { logger } from "./src/lib/index";
-import mongoose from "mongoose";
+import v1Router from "./url"
 
 dotenv.config()
 
 // Middleware to log unhandled exceptions
 process.on('uncaughtException', (reason: Error) => {
   logger.error(`Uncaught exception: ${reason.message}`, reason.message)
-  process.exit(1); // Exit the process (optional)
 });
 
 // Middleware to disable inspector
 process.on('SIGUSR1', (reason: Error) => {
   logger.error(`Uncaught exception: ${reason.message}`, reason.message)
-  process.exit(1)
 })
 
 const app = express();
@@ -37,6 +36,7 @@ app.use(cookieParser());
 app.use(requestLogger);
 
 app.use(unless(routesExcludedFromJwtAuthentication, checkJwt), decodeJwt);
+app.use('/v1', v1Router)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error({ message: err.message, code: err.name, name: err.stack });

@@ -1,7 +1,7 @@
 import { expressjwt } from 'express-jwt'
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import { JWTPayload } from '../utils/index'
+import { JWTPayload } from '../types'
 
 export const checkJwt = expressjwt({
   secret: `${process.env.JWT_SECRET}`,

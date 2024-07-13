@@ -1,7 +1,7 @@
 {
-  "name": "shopper",
+  "name": "loan",
   "version": "1.0.0",
-  "description": "api for shopper app",
+  "description": "api for loan app",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -24,14 +24,17 @@
     "http-status-codes": "^2.3.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.5"
+    "mongoose": "^8.4.5",
+    "node-mocks-http": "^1.15.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
     "nodemon": "^3.1.4",
+    "ts-jest": "^29.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.2",
     "winston": "^3.13.0"
